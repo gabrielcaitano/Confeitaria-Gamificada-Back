@@ -4,11 +4,9 @@ module.exports = function(app){
     var user = 'pumpkitty@outlook.com';
     var pass = '4Kytn8y/';
 
-    app.get('/mail',(req, res) =>{
+    app.post('/mail',(req, res) =>{
 
-        emailCliente = req.body.emailCliente;
-        assunto = req.body.assunto;
-        texto = req.body.texto;
+        nome = req.body.nome, emailCliente = req.body.email, assunto = req.body.assunto, texto = req.body.mensagem;
 
         const transporter = nodemailer.createTransport({
 
@@ -25,7 +23,7 @@ module.exports = function(app){
             // Assunto do Email.
             subject: assunto,
             // Corpo do Email.
-            text: texto
+            text: 'Nome do Cliente: ' + nome + '\n\n' + texto
         }).then(info=>{
             console.log('O e-mail foi enviado com sucesso!');
             res.send(info)

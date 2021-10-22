@@ -1,5 +1,3 @@
-const email = require("./email");
-
 module.exports = function(app,conexao){
 
     app.put('/retornacliente/:id',(req, res) =>{
@@ -11,22 +9,6 @@ module.exports = function(app,conexao){
             }else{
                 res.json(error);
                 console.log('Erro ao retornar cliente!')
-            }
-        });
-
-    })
-
-    app.post('/inserecliente',(req,res) =>{
-
-        Nome = req.body.Nome, Sobrenome = req.body.Sobrenome, CPF = req.body.CPF, Email = req.body.Email, Celular = req.body.Celular, CEP = req.body.CEP, Rua = req.body.Rua, Numero = req.body.Numero, Bairro = req.body.Bairro, Senha = req.body.Senha;
-
-        conexao.query("insert into cliente(nome,sobrenome,cpf,email,celular,cep,rua,numero,bairro,senha)values(?,?,?,?,?,?,?,?,?,?)",[Nome,Sobrenome,CPF,Email,Celular,CEP,Rua,Numero,Bairro,Senha],(error,result) => {
-            if(!error){
-                res.json(result);
-                console.log('Cliente inserido com sucesso!');
-            }else{
-                res.json(error);
-                console.log('Erro ao inserir o cliente!');
             }
         });
 

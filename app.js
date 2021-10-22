@@ -7,3 +7,5 @@ var rotacliente = require('./cliente')(app,conexao);
 var rotaemail = require('./email')(app);
 
 var rotalogin = require('./login')(app,conexao);
+
+var rotacadastro = require('./cadastro')(app,conexao);
