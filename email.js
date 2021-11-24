@@ -6,7 +6,7 @@ module.exports = function(app){
 
     app.post('/mail',(req, res) =>{
 
-        nome = req.body.nome, emailCliente = req.body.email, assunto = req.body.assunto, texto = req.body.mensagem;
+        nome = req.body.nome.trim(), emailCliente = req.body.email.trim(), assunto = req.body.assunto, texto = req.body.mensagem;
 
         const transporter = nodemailer.createTransport({
 

@@ -9,3 +9,5 @@ var rotaemail = require('./email')(app);
 var rotalogin = require('./login')(app,conexao);
 
 var rotacadastro = require('./cadastro')(app,conexao);
+
+var rotaproduto = require('./produto')(app,conexao);

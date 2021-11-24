@@ -1,30 +1,31 @@
 module.exports = function(app,conexao){
 
-    app.put('/retornacliente/:id',(req, res) =>{
+    app.get('/cliente', (req,res) =>{
 
-        conexao.query('select * from cliente',(error, result) =>{
-            if(!error){
+        conexao.query("select nome, dataNasc, cpf, celular, cep, email, numero from cliente where id_cliente = ?",session.userID, (error,result) => {
+
+            if(result != ''){
                 res.json(result);
-                console.log('Clientes retornados com sucesso!');
+                console.log('Dados do cliente retornado!');
             }else{
                 res.json(error);
-                console.log('Erro ao retornar cliente!')
+                console.log('Erro ao retornar cliente');
             }
         });
-
     })
+    
+    app.post('/attcliente', (req,res) =>{
 
-    app.delete('/deletacliente/:id',(req,res) =>{
+        Email = req.body.email.trim(), Celular = req.body.celular.trim(), CEP = req.body.cep.trim(), Rua = req.body.logradouro.trim(), Numero = req.body.numero.trim(), Bairro = req.body.bairro.trim();
 
-        var { id } = req.params;
+        conexao.query("update cliente set celular = ?, cep = ?, email = ?, rua = ?, bairro = ?, numero = ?  WHERE id_cliente = 1;",[Celular,CEP,Email,Rua,Bairro,Numero], (error,result) => {
 
-        conexao.query('delete from cliente where id_cliente = ?',id,(error, result) =>{
-            if(!error){
+            if(result != ''){
                 res.json(result);
-                console.log('Cliente deletado com sucesso!');
+                console.log('Dados atualizados');
             }else{
                 res.json(error);
-                console.log('Erro ao deletar o cliente!');
+                console.log('Erro ao atualizar');
             }
         });
 
