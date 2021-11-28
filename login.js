@@ -1,42 +1,42 @@
-module.exports = function(app,conexao){
+module.exports = function (app, conexao) {
 
-    app.post('/login',(req,res) =>{
+    app.post('/login', (req, res) => {
 
         Email = req.body.email.trim(), Senha = req.body.senha.trim();
 
-        conexao.query("select nome, id_cliente from cliente where email = ? and senha = ?",[Email,Senha], (error,result) => {   
+        conexao.query("select nome, id_cliente from cliente where email = ? and senha = ?", [Email, Senha], (error, result) => {
 
-        if (result != ''){
-            var usuario = result[0].nome;
-            res.send(usuario);
-            console.log('Usuario logado: ' + usuario)
+            if (result != '') {
+                var usuario = result[0].nome;
+                res.json('Sucesso');
+                console.log('Usuario logado: ' + usuario)
 
-            session = req.session;
-            session.userID = result[0].id_cliente;
+                session = req.session;
+                session.userID = result[0].id_cliente;
 
-            console.log(session);
+                console.log(session);
 
-        }else{
-            res.send('Dados invalidos');
-            console.log('Erro ao logar!')
-        }
-        
+            } else {
+                res.json(null);
+                console.log('Erro ao logar!')
+            }
+
         });
     })
 
-    app.get('/login', (req, res) =>{
-        
-        if(typeof session === 'undefined' || !session.userID){
+    app.get('/login', (req, res) => {
+
+        if (typeof session === 'undefined' || !session.userID) {
             res.json(null);
             console.log('Nenhuma sessão criada!')
-        }else{
+        } else {
             res.json(session.userID);
             console.log(session);
         }
 
     })
 
-    app.get('/logout',(req,res) => {
+    app.get('/logout', (req, res) => {
 
         req.session.destroy();
         session = req.session;
