@@ -1,22 +1,34 @@
 module.exports = function (app, conexao) {
 
-    app.post('/login', (req, res) => {
+    const bcrypt = require('bcrypt');
+    var jwt = require('jsonwebtoken');
 
+    app.post('/login', (req, res) => {
+        
         Email = req.body.email.trim(), Senha = req.body.senha.trim();
 
-        conexao.query("select nome, id_cliente from cliente where email = ? and senha = ?", [Email, Senha], (error, result) => {
+        conexao.query("select nome, id_cliente, senha from cliente where email = ?", Email, (error, result) => {
 
             if (result != '') {
-                var usuario = result[0].nome;
-                res.json('Sucesso');
-                console.log('Usuario logado: ' + usuario)
 
-                session = req.session;
-                session.userID = result[0].id_cliente;
+                var senhaHash = result[0].senha;
 
-                console.log(session);
+                if(bcrypt.compareSync(Senha, senhaHash)){
+                    var usuario = result[0].nome;
+                    res.json('Sucesso');
+                    console.log('Usuario logado: ' + usuario)
 
-            } else {
+                    session = req.session;
+                    session.userID = result[0].id_cliente;
+
+                    console.log(session);
+                }else {
+                    res.json(null);
+                    console.log('Erro ao logar!')
+                }
+
+            }
+            else {
                 res.json(null);
                 console.log('Erro ao logar!')
             }
@@ -30,8 +42,9 @@ module.exports = function (app, conexao) {
             res.json(null);
             console.log('Nenhuma sessão criada!')
         } else {
-            res.json(session.userID);
-            console.log(session);
+            var tokenID = jwt.sign(session.userID, 'HS256')
+            res.json(tokenID);
+            console.log('Sessão aberta: "' + session.userID + '", TOKEN INFORMADO: ' + tokenID)
         }
 
     })

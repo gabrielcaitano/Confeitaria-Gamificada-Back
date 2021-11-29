@@ -19,7 +19,7 @@ app.use(session({
     secret: 'pumpkitty',
     saveUninitialized: true,
     cookie: { maxAge: umDia },
-    resave: true
+    resave: false
 }));
 
 app.use(cookieParser());
