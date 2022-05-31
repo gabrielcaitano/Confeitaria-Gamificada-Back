@@ -1,4 +1,4 @@
-module.exports = function (app, conexao, rotapass) {
+module.exports = function (app, conexao) {
 
     const bcrypt = require('bcrypt');
 

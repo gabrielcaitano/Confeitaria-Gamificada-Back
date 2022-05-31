@@ -23,7 +23,7 @@ module.exports = function (app, conexao) {
 
         CEP = req.body.cep.trim(), Rua = req.body.logradouro.trim(), Numero = req.body.numero.trim(), Bairro = req.body.bairro.trim();
 
-        conexao.query("update cliente set cep = ?, rua = ?, bairro = ?, numero = ?  WHERE id_cliente = 1;", [CEP, Rua, Bairro, Numero], (error, result) => {
+        conexao.query("update cliente set cep = ?, rua = ?, bairro = ?, numero = ?  WHERE id_cliente = ?", [CEP, Rua, Bairro, Numero,session.userID], (error, result) => {
 
             if (result != '') {
                 res.json('Sucesso');

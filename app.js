@@ -11,3 +11,5 @@ var rotalogin = require('./login')(app,conexao);
 var rotacadastro = require('./cadastro')(app,conexao);
 
 var rotaproduto = require('./produto')(app,conexao);
+
+var rotagame = require('./game')(app, conexao)
